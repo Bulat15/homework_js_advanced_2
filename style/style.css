@@ -1,0 +1,145 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  position: fixed;
+  width: 100%;
+  background-color: white;
+  z-index: 1;
+}
+.header .form {
+  text-align: center;
+}
+.header .form #count {
+  display: flex;
+  flex-direction: row;
+}
+.header .form #true {
+  background-color: green;
+  height: 50px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+}
+.header .form #false {
+  background-color: red;
+  height: 50px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+}
+.header .form form {
+  align-items: center;
+  padding: 40px;
+}
+.header .form form .input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.header .form form .input .field + .field {
+  margin: 10px;
+}
+.header .form form .input .field input {
+  background: #EBEBEB;
+  border: none;
+  width: 190px;
+  height: 35px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 23px;
+  padding-left: 10px;
+  color: black;
+}
+.header .form form .input ::placeholder {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  padding-left: 10px;
+  font-size: 15px;
+  line-height: 23px;
+  color: black;
+}
+.header .form form #button {
+  height: 35px;
+  width: 200px;
+  background: #f5f8f2;
+  border: 2px solid #F39C12;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 23px;
+  text-align: center;
+  color: #F39C12;
+}
+
+.text {
+  align-items: center;
+}
+
+#cards {
+  padding-top: 320px;
+}
+
+.card {
+  background-color: #34495E;
+  color: white;
+  position: relative;
+  width: auto;
+  height: 100px;
+  display: flex;
+  flex-direction: columns;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.card + .card {
+  margin: 30px 0;
+}
+
+.text {
+  margin: 10px;
+  font-size: 25px;
+}
+
+.close {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: #f50a0a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-size: 35px;
+  top: 50px;
+  right: 0px;
+  cursor: pointer;
+}
+
+.agree {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-size: 25px;
+  top: 0px;
+  right: 0px;
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=style.css.map */
