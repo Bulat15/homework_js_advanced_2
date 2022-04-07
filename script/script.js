@@ -91,4 +91,4 @@ document.addEventListener('click', function (e) {
 
     var cards = rootElem.innerHTML;
     localStorage.setItem("cards", cards);
-}, false);
+}, false); 
