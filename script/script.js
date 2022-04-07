@@ -9,7 +9,9 @@ let dizlike = Number(localStorage.getItem("dizlikes"));
 dizlikeElement.innerText = 'Отменено '+JSON.stringify(Number(localStorage.getItem("dizlike")));
 likeElemnt.innerText = 'Сделано '+JSON.stringify(Number(localStorage.getItem("likes")));
 
-rootElem = document.querySelector("#cards")
+let rootElem = document.querySelector("#cards")
+
+// rootElem = JSON.parse(localStorage.getItem('rootElem')); 
 
 class Post{
 
@@ -50,8 +52,10 @@ class Post{
             likeElemnt.innerText = 'Сделано '+JSON.stringify(Number(localStorage.getItem("likes")));
             rootElem.remove();
         })
-                    
-       return rootElem;
+
+        // localStorage.setItem('rootElem', JSON.stringify(rootElem));   
+        // JSON.parse(localStorage.getItem('rootElem'));  
+       return rootElem
     }
 
 
@@ -62,5 +66,9 @@ wordElement.addEventListener('submit', function (event) {
     const postPostPost = postsPost.get({tag:"div",classList:['card']});
     rootElem.append(postPostPost);
 });
+
+// localStorage.setItem('value', JSON.stringify(user));
+
+// console.log(JSON.parse(localStorage.getItem('value')));
 
 
