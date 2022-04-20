@@ -1,43 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="style/style.css">
 	<link rel="stylesheet" type="text/css" href="fa/css/all.min.css">
-    <link rel="stylesheet" href="style/style.css">
-    <title>Document</title>
 </head>
+
 <body>
-    <div class="header">
-
-		<div class="form">
-			<div id="count">
-				<div id="true"></div>
-				<div id="false"></div>
+	<header>
+		<div id="achievement">
+			<div class="pos">
+				<p>Сделано <span> 0</span></p>
 			</div>
-			<form id="word-form">
-				<div class="input">
-					<div class="field">
-						<p>Добавить новое дело</p>
-					</div>
-					<div class="field">
-						<input name="word" placeholder="Название">
-					</div>
-
-					<div class="field">
-						<input type="text" name="text" placeholder="Пометки">
-					</div>
-					<input type="submit" value="Добавить" id="button">
-				</div>	
-
-				
-
-			</form>
+			<div class="neg">
+				<p>Отменено <span> 0</span></p>
+			</div>
 		</div>
-	</div>
+		<form>
+			<h2>Добавить новое дело</h2>
+			<input name="title" placeholder="Название">
+			<input name="description" placeholder="Пометки">
+			<button>Добавить</button>
+		</form>
+	</header>
+	<div id="deals">
 
-	<div id="cards"></div>
-    <script type="text/javascript" src="script/script.js"></script>
+	</div>
+	<script type="text/javascript" src="script/script.js"></script>
 </body>
+
 </html>

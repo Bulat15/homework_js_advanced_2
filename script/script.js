@@ -1,94 +1,99 @@
-const wordElement = document.querySelector('#word-form');
-const likeElemnt = document.querySelector('#true');
-const dizlikeElement = document.querySelector('#false');
+const formElem = document.querySelector('form');
 
 
-let likes = Number(localStorage.getItem("likes"));
-let dizlike = Number(localStorage.getItem("dizlikes"));
+const get_deals = () => JSON.parse(localStorage.getItem('deals')) || [];
+const get_deals_status = () => JSON.parse(localStorage.getItem('deals_status')) || {done: 0, deny: 0};
 
-dizlikeElement.innerText = 'Отменено ' + JSON.stringify(Number(localStorage.getItem("dizlike")));
-likeElemnt.innerText = 'Сделано ' + JSON.stringify(Number(localStorage.getItem("likes")));
+const add_deal = deal => localStorage.setItem('deals',JSON.stringify([...get_deals(),deal]));
 
-let rootElem = document.querySelector("#cards");
-rootElem.innerHTML = localStorage.getItem("cards");
-
-// rootElem = JSON.parse(localStorage.getItem('rootElem'));
-
-class Post {
-
-    constructor(word, text) {
-        this.word = word;
-        this.text = text;
-    }
-    get(config) {
-        const { tag, classList } = config;
-        const rootElem = document.createElement(tag);
-        classList && rootElem.classList.add(...classList);
-        const wordElem = document.createElement('p');
-        const textElem = document.createElement('p');
-        const allText = document.createElement('div');
-        const closeElem = document.createElement('div');
-        const agreeElem = document.createElement('div');
-        wordElem.innerText = this.word;
-        wordElem.classList.add('text');
-        textElem.innerText = this.text;
-        textElem.classList.add('text');
-        closeElem.classList.add('close');
-        closeElem.innerHTML = '<i class="fa fa-times"></i>';
-        agreeElem.classList.add('agree');
-        agreeElem.innerHTML = '<i class="fa fa-check"></i>';
-
-        allText.append(wordElem, textElem);
-        rootElem.append(allText, closeElem, agreeElem);
-
-        // closeElem.addEventListener('click', () => {
-        //     dizlike++;
-        //     localStorage.setItem("dizlike", dizlike);
-        //     dizlikeElement.innerText = 'Отменено ' + JSON.stringify(Number(localStorage.getItem("dizlike")));
-        //     rootElem.remove();
-        // })
-
-        // agreeElem.addEventListener('click', () => {
-        //     likes++;
-        //     localStorage.setItem("likes", likes);
-        //     likeElemnt.innerText = 'Сделано ' + JSON.stringify(Number(localStorage.getItem("likes")));
-        //     rootElem.remove();
-        // })
-
-        // localStorage.setItem('rootElem', JSON.stringify(rootElem));
-        // JSON.parse(localStorage.getItem('rootElem'));
-        return rootElem
-    }
-
-
+const remove_deal = deal => {
+	const new_lst = get_deals().filter(elem => JSON.stringify(elem) !== JSON.stringify(deal));
+	localStorage.setItem('deals', JSON.stringify(new_lst)); 
 }
 
-wordElement.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const postsPost = new Post(this.word.value, this.text.value);
-    const postPostPost = postsPost.get({ tag: "div", classList: ['card'] });
-    rootElem.append(postPostPost);
 
-    var cards = rootElem.innerHTML;
-    localStorage.setItem("cards", cards);
-});
+const add_pos_status = () =>{
+	const deals_status = get_deals_status();
+	deals_status.done++;
+	localStorage.setItem('deals_status', JSON.stringify(deals_status)); 
+}
 
-document.addEventListener('click', function (e) {
-    e = e || window.event;
-    target = e.target || e.currentTarget;
 
-    if (target.classList.contains('close')) {
-        dizlike++;
-        localStorage.setItem("dizlike", dizlike);
-        dizlikeElement.innerText = 'Отменено ' + JSON.stringify(Number(localStorage.getItem("dizlike")));
-        target.parentNode.remove();
-    } else if (target.classList.contains('agree')) {
-        likes++;
-        localStorage.setItem("likes", likes);
-        likeElemnt.innerText = 'Сделано ' + JSON.stringify(Number(localStorage.getItem("likes")));
-        target.parentNode.remove();
-    }
+const add_neg_status = () =>{
+	const deals_status = get_deals_status();
+	deals_status.deny++;
+	localStorage.setItem('deals_status',  JSON.stringify(deals_status)); 
+}
 
-    var cards = rootElem.innerHTML;
-    localStorage.setItem("cards", cards);
-}, false); 
+formElem.addEventListener('submit',event => {
+	event.preventDefault();
+	const {title, description} = event.target;
+	add_deal({
+		title: title.value,
+		description: description.value
+	});
+
+	render(get_deals());
+	title.value = '';
+	description.value ='';
+})
+
+function render(lst){
+	const posElem = document.querySelector('.pos span');
+	const negElem = document.querySelector('.neg span');
+	const {done,deny} = get_deals_status();
+	posElem.innerText = done;
+	negElem.innerText = deny;
+
+	const dealsElem = document.querySelector('#deals');
+	dealsElem.innerText = '';
+	if(get_deals().length){
+		dealsElem.append(
+			...get_deals().map(deal=>{
+				const {title,description} = deal;
+				const rootElem = document.createElement('div');
+				rootElem.classList.add('deal');
+
+				const infoElem = document.createElement('div');
+				const titleElem = document.createElement('div');
+				const descrElem = document.createElement('div');
+				infoElem.classList.add('info');
+				titleElem.innerText = title;
+				descrElem.innerText = description;
+				infoElem.append(titleElem,descrElem);
+
+				const buttonsElem = document.createElement('div');
+				const okBtnElem = document.createElement('div');
+				const denBtnElem = document.createElement('div');
+				denBtnElem.innerHTML = '<i class="fa fa-times"></i>';
+				okBtnElem.innerHTML = '<i class="fa fa-check"></i>';
+				buttonsElem.classList.add('triggers');
+				okBtnElem.classList.add('btn_pos');
+				denBtnElem.classList.add('btn_neg');
+				buttonsElem.append(okBtnElem,denBtnElem);
+
+				rootElem.append(infoElem,buttonsElem);
+
+				okBtnElem.addEventListener('click', ()=>{
+					add_pos_status();
+					remove_deal(deal);
+					render();
+				});
+				denBtnElem.addEventListener('click', ()=>{
+					add_neg_status();
+					remove_deal(deal);
+					render();
+				})
+
+				return rootElem;
+			})
+		)
+	}else{
+		const infoElem = document.createElement('p');
+		infoElem.classList.add('empty_info');
+		infoElem.innerText = 'У вас нет дел!';
+		dealsElem.append(infoElem);
+	}
+}
+
+render(get_deals());
